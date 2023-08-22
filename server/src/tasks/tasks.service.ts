@@ -6,21 +6,8 @@ import { Task, Prisma } from "@prisma/client";
 export class TasksService {
 	constructor(private prisma: PrismaService) {}
 
-	async getTasks(params: {
-		skip?: number;
-		take?: number;
-		cursor?: Prisma.TaskWhereUniqueInput;
-		where?: Prisma.TaskWhereInput;
-		orderBy?: Prisma.TaskOrderByWithRelationInput;
-	}): Promise<Task[]> {
-		const { skip, take, cursor, where, orderBy } = params;
-		return this.prisma.task.findMany({
-			skip,
-			take,
-			cursor,
-			where,
-			orderBy,
-		});
+	async getTasks(): Promise<Task[]> {
+		return this.prisma.task.findMany();
 	}
 
 	async createTask(data: Prisma.TaskCreateInput): Promise<Task> {
