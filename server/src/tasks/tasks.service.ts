@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma.service";
+import { PrismaService } from "../db/prisma.service";
 import { Task, Prisma } from "@prisma/client";
+import { TaskDto } from "./tasks.dto";
 
 @Injectable()
 export class TasksService {
@@ -27,9 +28,7 @@ export class TasksService {
 		});
 	}
 
-	async deleteTask(where: Prisma.TaskWhereUniqueInput): Promise<Task> {
-		return this.prisma.task.delete({
-			where,
-		});
+	async deleteTask(where: Prisma.TaskWhereUniqueInput): Promise<TaskDto> {
+		return this.prisma.task.delete({ where });
 	}
 }

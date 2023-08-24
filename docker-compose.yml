@@ -10,14 +10,14 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://prisma:prisma@todos-production-db:5432/todos
+      - DATABASE_URL=postgres://prisma:prisma@tasks-production-db:5432/tasks
 
   db:
     image: postgres:13
-    container_name: todos-production-db
+    container_name: tasks-production-db
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
-      POSTGRES_DB: todos
+      POSTGRES_DB: tasks
