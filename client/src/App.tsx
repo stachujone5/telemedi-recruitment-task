@@ -160,18 +160,24 @@ export const App = () => {
 					<h4 className="ml-3 text-lg font-semibold">Tasks</h4>
 				</div>
 				{isError && (
-					<div className="flex flex-grow flex-col items-center justify-center text-center text-red-500">
+					<div
+						data-testid="error-div"
+						className="flex flex-grow flex-col items-center justify-center text-center text-red-500"
+					>
 						<p>Something went wrong</p>
 						<p>Please try again later</p>
 					</div>
 				)}
-				{isLoading && <div className="flex-grow animate-pulse rounded bg-gray-900" />}
+				{isLoading && (
+					<div data-testid="loading-div" className="flex-grow animate-pulse rounded bg-gray-900" />
+				)}
 				{tasks &&
 					(tasks.length > 0 ? (
 						<div className="flex-grow overflow-y-auto">
 							{tasks.map((task) => (
 								<div key={task.id} className="flex h-10">
 									<input
+										data-testid="task-edit-checkbox"
 										className="peer hidden"
 										type="checkbox"
 										id={task.id.toString()}
@@ -179,17 +185,16 @@ export const App = () => {
 										onChange={() => handleEdit(task.id, task.done)}
 									/>
 									<label
-										className="flex h-10 flex-grow cursor-pointer items-center rounded px-2 transition-colors hover:bg-gray-900"
+										className="flex h-10 flex-grow cursor-pointer items-center rounded px-2 transition-colors hover:bg-gray-900 peer-checked:[&>*:nth-child(1)]:border-[#10b981] peer-checked:[&>*:nth-child(1)]:bg-[#10b981] peer-checked:[&>*:nth-child(1)]:text-white peer-checked:[&>*:nth-child(2)]:text-[#9ca3af] peer-checked:[&>*:nth-child(2)]:line-through"
 										htmlFor={task.id.toString()}
 									>
-										<span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-gray-500 text-transparent peer-checked:border-[#10b981] peer-checked:bg-[#10b981] peer-checked:text-white">
+										<span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-gray-500 text-transparent ">
 											<Check />
 										</span>
-										<span className="ml-4 text-sm peer-checked:text-[#9ca3af] peer-checked:line-through">
-											{task.content}
-										</span>
+										<span className="ml-4 text-sm">{task.content}</span>
 									</label>
 									<button
+										data-testid="delete-task-btn"
 										onClick={() => handleDelete(task.id)}
 										className="rounded-md p-2 transition-colors hover:bg-red-400"
 									>
@@ -205,6 +210,7 @@ export const App = () => {
 					))}
 				<form className="mt-2 flex items-center" onSubmit={handleSubmit(onSubmit)}>
 					<input
+						data-testid="add-task-input"
 						className="h-8 w-full bg-transparent font-medium focus:outline-none"
 						type="text"
 						placeholder="add a new task"
@@ -212,12 +218,18 @@ export const App = () => {
 						{...register("taskContent")}
 					/>
 
-					<button className="rounded-md p-2 transition-colors hover:bg-green-500" type="submit">
+					<button
+						data-testid="add-task-btn"
+						className="rounded-md p-2 transition-colors hover:bg-green-500"
+						type="submit"
+					>
 						<Plus />
 					</button>
 				</form>
 				{errors.taskContent?.message && (
-					<p className="text-xs text-red-500">{errors.taskContent.message}</p>
+					<p data-testid="input-error-msg" className="text-xs text-red-500">
+						{errors.taskContent.message}
+					</p>
 				)}
 			</div>
 		</div>

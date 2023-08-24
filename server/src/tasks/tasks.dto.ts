@@ -1,5 +1,5 @@
 import { PickType } from "@nestjs/swagger";
-import { IsString, Length, IsInt } from "class-validator";
+import { IsString, Length, IsInt, IsBoolean } from "class-validator";
 
 export class TaskDto {
 	@IsInt()
@@ -7,6 +7,7 @@ export class TaskDto {
 	@IsString()
 	@Length(1, 30)
 	content: string;
+	@IsBoolean()
 	done: boolean;
 }
 

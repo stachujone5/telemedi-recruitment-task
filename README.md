@@ -12,9 +12,9 @@
 - React Query
 - React Hook Form
 - Zod
-- Vitest
-- Supertest
 - NestJS
 - Prisma
 - PostgreSQL
 - Docker
+- Frontend tested with Vitest, MSW and React Testing Library
+- Backend tested with Jest
