@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../db/prisma.service";
-import { Task, Prisma } from "@prisma/client";
-import { TaskDto } from "./tasks.dto";
+import { Task } from "@prisma/client";
+import { CreateTaskDto, TaskDto, UpdateTaskDto } from "./tasks.dto";
 
 @Injectable()
 export class TasksService {
@@ -11,24 +11,20 @@ export class TasksService {
 		return this.prisma.task.findMany();
 	}
 
-	async createTask(data: Prisma.TaskCreateInput): Promise<Task> {
+	async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
 		return this.prisma.task.create({
-			data,
+			data: createTaskDto,
 		});
 	}
 
-	async updateTask(params: {
-		where: Prisma.TaskWhereUniqueInput;
-		data: Prisma.TaskUpdateInput;
-	}): Promise<Task> {
-		const { where, data } = params;
+	async updateTask(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
 		return this.prisma.task.update({
-			data,
-			where,
+			data: updateTaskDto,
+			where: { id },
 		});
 	}
 
-	async deleteTask(where: Prisma.TaskWhereUniqueInput): Promise<TaskDto> {
-		return this.prisma.task.delete({ where });
+	async deleteTask(id: number): Promise<TaskDto> {
+		return this.prisma.task.delete({ where: { id } });
 	}
 }

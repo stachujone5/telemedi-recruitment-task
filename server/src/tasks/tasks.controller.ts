@@ -21,11 +21,11 @@ export class TasksController {
 		@Param("id", ParseIntPipe) id: number,
 		@Body() updateTaskDto: UpdateTaskDto,
 	): Promise<TaskDto> {
-		return this.tasksSerivce.updateTask({ where: { id }, data: updateTaskDto });
+		return this.tasksSerivce.updateTask(id, updateTaskDto);
 	}
 
 	@Delete(":id")
 	delete(@Param("id", ParseIntPipe) id: number): Promise<TaskDto> {
-		return this.tasksSerivce.deleteTask({ id });
+		return this.tasksSerivce.deleteTask(id);
 	}
 }
