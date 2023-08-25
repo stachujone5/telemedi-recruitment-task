@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, ClipboardCheck, Plus, X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 const BASE_API_URL = "http://localhost:3000";
@@ -72,6 +73,9 @@ const deleteTaskFn = async (id: number) => {
 	return taskSchema.parse(data);
 };
 
+export const notify = () =>
+	toast("Something went wrong, please try again later", { type: "error" });
+
 const taskFormSchema = z.object({
 	taskContent: z
 		.string()
@@ -104,9 +108,12 @@ export const App = () => {
 		onSuccess: (newTask) => {
 			const tasks = z.array(taskSchema).safeParse(queryClient.getQueryData(TASKS_QUERY_KEY));
 
-			if (tasks.success) {
-				queryClient.setQueryData(TASKS_QUERY_KEY, [...tasks.data, newTask]);
+			if (!tasks.success) {
+				return notify();
 			}
+
+			reset();
+			queryClient.setQueryData(TASKS_QUERY_KEY, [...tasks.data, newTask]);
 		},
 	});
 
@@ -115,12 +122,14 @@ export const App = () => {
 		onSuccess: (updatedTask) => {
 			const tasks = z.array(taskSchema).safeParse(queryClient.getQueryData(TASKS_QUERY_KEY));
 
-			if (tasks.success) {
-				queryClient.setQueryData(
-					TASKS_QUERY_KEY,
-					tasks.data.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
-				);
+			if (!tasks.success) {
+				return notify();
 			}
+
+			queryClient.setQueryData(
+				TASKS_QUERY_KEY,
+				tasks.data.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+			);
 		},
 	});
 
@@ -129,12 +138,14 @@ export const App = () => {
 		onSuccess: (deletedTask) => {
 			const tasks = z.array(taskSchema).safeParse(queryClient.getQueryData(TASKS_QUERY_KEY));
 
-			if (tasks.success) {
-				queryClient.setQueryData(
-					TASKS_QUERY_KEY,
-					tasks.data.filter((task) => task.id !== deletedTask.id),
-				);
+			if (!tasks.success) {
+				return notify();
 			}
+
+			queryClient.setQueryData(
+				TASKS_QUERY_KEY,
+				tasks.data.filter((task) => task.id !== deletedTask.id),
+			);
 		},
 	});
 
@@ -148,7 +159,6 @@ export const App = () => {
 
 	const onSubmit = (data: z.infer<typeof taskFormSchema>) => {
 		addTask(data.taskContent);
-		reset();
 	};
 
 	return (
