@@ -112,6 +112,8 @@ pnpm test
 
 ### Building and Running with Docker Compose
 
+Important Note: The Docker Compose configuration provided already includes dummy environment data, so there is no need for an additional .env file. You can directly proceed with the following steps.
+
 To build and run the app using Docker Compose:
 
 1. Build and start the Docker containers using Docker Compose:
@@ -132,13 +134,13 @@ Backend and frontend tests can be run within Docker containers:
 Frontend Tests in Docker:
 
 ```bash
-docker exec -it telemedi-recruitment-task-client pnpm test
+docker exec -it telemedi-recruitment-task-client-1 pnpm test
 ```
 
 Backend Tests in Docker:
 
 ```bash
-docker exec -it telemedi-recruitment-task-server pnpm test
+docker exec -it telemedi-recruitment-task-server-1 pnpm test
 ```
 
 ## Technologies
