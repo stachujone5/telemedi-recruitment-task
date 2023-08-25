@@ -4,9 +4,9 @@ import { Check, ClipboardCheck, Plus, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const TASKS_QUERY_KEY = ["tasks"];
-
 const BASE_API_URL = "http://localhost:3000";
+
+const TASKS_QUERY_KEY = ["tasks"];
 
 const taskSchema = z.object({ content: z.string(), done: z.boolean(), id: z.number() });
 
@@ -157,7 +157,7 @@ export const App = () => {
 				<div className="mb-6 flex items-center">
 					<ClipboardCheck className="text-blue-600" />
 
-					<h4 className="ml-3 text-lg font-semibold">Tasks</h4>
+					<h1 className="ml-3 text-lg font-semibold">Tasks</h1>
 				</div>
 				{isError && (
 					<div
@@ -211,6 +211,7 @@ export const App = () => {
 				<form className="mt-2 flex items-center" onSubmit={handleSubmit(onSubmit)}>
 					<input
 						data-testid="add-task-input"
+						id="addTask"
 						className="h-8 w-full bg-transparent font-medium focus:outline-none"
 						type="text"
 						placeholder="add a new task"
